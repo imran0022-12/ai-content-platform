@@ -1,0 +1,16 @@
+node_modules
+.git
+.env
+.env.backup
+storage/logs/*
+storage/framework/sessions/*
+vendor
+.gitignore
+Dockerfile
+README.md
+.idea
+.vscode
+*.log
+*.sqlite
+.DS_Store
+Thumbs.db
