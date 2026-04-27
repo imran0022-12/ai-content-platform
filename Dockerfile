@@ -11,8 +11,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nodejs \
     npm \
-    nginx \
-    supervisor
+    nginx
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -32,10 +31,6 @@ COPY . /var/www
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/sites-available/default
 
-# Copy supervisor configuration
-RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
@@ -53,5 +48,5 @@ RUN php artisan storage:link || true
 # Expose port 80
 EXPOSE 80
 
-# Start supervisor (manages both PHP-FPM and Nginx)
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+# Start PHP-FPM and Nginx
+CMD service php8.2-fpm start && nginx -g 'daemon off;'
