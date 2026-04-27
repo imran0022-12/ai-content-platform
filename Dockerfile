@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -49,4 +49,4 @@ RUN php artisan storage:link || true
 EXPOSE 80
 
 # Start PHP-FPM and Nginx
-CMD service php8.2-fpm start && nginx -g 'daemon off;'
+CMD service php8.3-fpm start && nginx -g 'daemon off;'
