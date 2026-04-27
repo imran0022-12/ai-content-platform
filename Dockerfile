@@ -1,9 +1,10 @@
 FROM php:8.3-cli
 
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip nodejs npm sqlite3 libsqlite3-dev
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip nodejs npm \
+    libicu-dev
 
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd pdo_sqlite
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -16,9 +17,6 @@ RUN npm install && npm run build
 
 RUN mkdir -p database && touch database/database.sqlite
 RUN chmod -R 775 database
-
-# Force SQLite extension
-RUN docker-php-ext-enable pdo_sqlite
 
 EXPOSE 8080
 
