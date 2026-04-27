@@ -17,6 +17,9 @@ RUN npm install && npm run build
 RUN mkdir -p database && touch database/database.sqlite
 RUN chmod -R 775 database
 
+# Force SQLite extension
+RUN docker-php-ext-enable pdo_sqlite
+
 EXPOSE 8080
 
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
